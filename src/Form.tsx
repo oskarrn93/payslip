@@ -48,8 +48,6 @@ const InputWithLabel = ({ label, children }: { [label: string]: any }) => {
   )
 }
 
-console.log()
-
 const Form: React.FC = () => {
   const [recipientName, setRecipientName] = useState('')
   const [recipientAdress, setRecipientAdress] = useState('')
