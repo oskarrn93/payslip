@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { FormData } from './models/FormData'
 
 const Container = styled.div`
   max-width: 95%;
@@ -39,6 +40,19 @@ const FormItem = styled.div`
   }
 `
 
+const StyledButton = styled.input`
+  margin-top: 30px;
+  background-color: rgb(73, 185, 117);
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  padding: 16px 32px;
+  text-decoration: none;
+  cursor: pointer;
+`
+
 const InputWithLabel = ({ label, children }: { [label: string]: any }) => {
   return (
     <FormItem>
@@ -48,7 +62,7 @@ const InputWithLabel = ({ label, children }: { [label: string]: any }) => {
   )
 }
 
-const Form: React.FC = () => {
+export const Form: React.FC<{ generateReport: (data: FormData) => void }> = ({ generateReport }) => {
   const [recipientName, setRecipientName] = useState('')
   const [recipientAdress, setRecipientAdress] = useState('')
   const [recipientPersonalIdentityNumber, setRecipientPersonalIdentityNumber] = useState('')
@@ -65,7 +79,30 @@ const Form: React.FC = () => {
   const [salary, setSalary] = useState(0)
   const [taxDeducationPercantage, setTaxDeducationPercantage] = useState(0)
 
-  console.log(taxDeducationPercantage)
+  const gatherFormData = () => {
+    const data: FormData = {
+      recipient: {
+        name: recipientName,
+        adress: recipientAdress,
+        personalIdentityNumber: recipientPersonalIdentityNumber,
+        bankAccount: recipientBankAccount,
+      },
+      employer: {
+        name: employerName,
+        adress: employerAdress,
+        organisationNumber: employerOrganisationNumber,
+        phoneNumber: employerPhoneNumber,
+      },
+      payrollPeriod,
+      paymentDate,
+      paymentDescription,
+      salary,
+      taxDeducationPercantage,
+    }
+
+    return data
+  }
+
   return (
     <Container>
       Fyll i uppgifterna nedan och klicka sedan på generera.
@@ -136,8 +173,7 @@ const Form: React.FC = () => {
           </InputWithLabel>
         </FormContainer>
       </Details>
+      <StyledButton type="submit" value="Generera rapport" onClick={() => generateReport(gatherFormData())} />
     </Container>
   )
 }
-
-export default Form
