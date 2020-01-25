@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import { Form } from './Form'
 import { FormData } from './models/FormData'
+import { PDFDocument, generatePdf } from './CreatePdf'
 
 const App: React.FC = () => {
+  // const [reportData, setReportData] = useState<FormData | null>(null)
+
   const generateReport = (data: FormData) => {
-    console.log('generateReport data', data)
+    // setReportData(data)
+
+    const document = PDFDocument({ data })
+    generatePdf(document)
   }
 
   return (
